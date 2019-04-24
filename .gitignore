@@ -23,5 +23,5 @@ erl_crash.dump
 identicon-*.tar
 
 # ignore image files in img directory
-/img/.*
+/img/*.*
 

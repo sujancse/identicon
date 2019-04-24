@@ -12,19 +12,10 @@ by adding `identicon` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:identicon, "~> 0.1.0"}
+    {:identicon, "~> 0.1.0"},
+    {:egd, github: "erlang/egd"}
   ]
 end
 ```
 
 The library is dependend on erlang `:egd` library
-
-So you have to add `:egd` as well
-
-```elixir
-def deps do
-  [
-    {:identicon, "~> 0.1.0"}
-  ]
-end
-```
