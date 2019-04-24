@@ -16,6 +16,7 @@ defmodule Identicon do
     |> hash
     |> pick_color
     |> build_grid
+    |> get_even_squares
   end
 
   def hash(input) do
@@ -57,5 +58,20 @@ defmodule Identicon do
   def mirror_row(row) do
     [first, second | _tail] = row
     row ++ [second, first]
+  end
+
+  @doc """
+  Get even squares from image grid
+
+  ## Examples
+      Identicon.get_even_squares(image)
+  """
+  def get_even_squares(%Image{grid: grid} = image) do
+    grid =
+      Enum.filter(grid, fn {code, _index} ->
+        rem(code, 2) == 0
+      end)
+
+    %Image{image | grid: grid}
   end
 end
