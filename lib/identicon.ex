@@ -6,20 +6,21 @@ defmodule Identicon do
   alias Identicon.Image
 
   @doc """
-  Generating name hash
+  Generate identicon from input
 
   ## Examples
     Identicon.generate("sujan")
   """
-  def generate(name) do
-    name
+  def generate(input) do
+    input
     |> hash
     |> pick_color
+    |> build_grid
   end
 
-  def hash(name) do
+  def hash(input) do
     hex =
-      :crypto.hash(:md5, name)
+      :crypto.hash(:md5, input)
       |> :binary.bin_to_list()
 
     %Image{hex: hex}
@@ -33,5 +34,28 @@ defmodule Identicon do
   """
   def pick_color(%Image{hex: [r, g, b | _tail]} = image) do
     %Image{image | color: {r, g, b}}
+  end
+
+  @doc """
+  Building image grid
+
+  ## Examples
+      Identicon.build_grid(image)
+  """
+
+  def build_grid(%Image{hex: hex} = image) do
+    grid =
+      hex
+      |> Enum.chunk(3)
+      |> Enum.map(&mirror_row/1)
+      |> List.flatten()
+      |> Enum.with_index()
+
+    %Image{image | grid: grid}
+  end
+
+  def mirror_row(row) do
+    [first, second | _tail] = row
+    row ++ [second, first]
   end
 end
