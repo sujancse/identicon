@@ -19,6 +19,7 @@ defmodule Identicon do
   def generate(name) do
     name
     |> hash
+    |> pick_color
   end
 
   def hash(name) do
@@ -27,5 +28,9 @@ defmodule Identicon do
       |> :binary.bin_to_list()
 
     %Image{hex: hex}
+  end
+
+  def pick_color(%Image{hex: [r, g, b | _tail]} = image) do
+    %Image{image | color: {r, g, b}}
   end
 end
