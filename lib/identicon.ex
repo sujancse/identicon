@@ -18,7 +18,8 @@ defmodule Identicon do
     |> build_grid
     |> get_even_squares
     |> build_pixel_map
-    |> draw
+    |> draw_image
+    |> save_image(input)
   end
 
   def hash(input) do
@@ -106,7 +107,7 @@ defmodule Identicon do
       Identicon.draw(image)
   """
 
-  def draw(%Image{color: color, pixel_map: pixel_map}) do
+  def draw_image(%Image{color: color, pixel_map: pixel_map}) do
     image = :egd.create(250, 250)
     fill_color = :egd.color(color)
 
@@ -115,5 +116,18 @@ defmodule Identicon do
     end)
 
     :egd.render(image)
+  end
+
+  @doc """
+  Saving the identicon image to a specified directory
+  """
+  def save_image(image, input) do
+    case File.write("img/#{input}.png", image) do
+      :ok ->
+        IO.puts("Identicon successfully generated.")
+
+      {:error, :enoent} ->
+        IO.warn("Please create an img directory in project root.")
+    end
   end
 end
