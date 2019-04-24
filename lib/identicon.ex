@@ -9,12 +9,7 @@ defmodule Identicon do
   Generating name hash
 
   ## Examples
-
-      iex> Identicon.generate("sujan")
-      %Identicon.Image{
-        hex: [147, 224, 90, 4, 20, 53, 192, 131, 80, 76, 152, 109, 232, 92, 171, 161]
-      }
-
+    Identicon.generate("sujan")
   """
   def generate(name) do
     name
@@ -30,6 +25,12 @@ defmodule Identicon do
     %Image{hex: hex}
   end
 
+  @doc """
+  Picking color
+
+  ## Examples
+    Identicon.pick_color(image)
+  """
   def pick_color(%Image{hex: [r, g, b | _tail]} = image) do
     %Image{image | color: {r, g, b}}
   end
